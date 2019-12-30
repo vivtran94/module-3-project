@@ -27,9 +27,24 @@ document.addEventListener("DOMContentLoaded",function(){
         register.append(createAccount)
         loginForm.append(input,playButton,register)
         
-        playButton.addEventListener("click", function(){
-            console.log("Click")
-        
+        loginForm.addEventListener("submit", function(e){
+            e.preventDefault()
+            console.log(input.value)
+            fetch('http://localhost:3000/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: input.value
+                })
+            })
+            .then(function(response){
+                return response.json()
+            })
+            .then(function(response){
+                console.log(response)
+            })
         })
         
         createAccount.addEventListener("click", function(){
@@ -50,10 +65,11 @@ document.addEventListener("DOMContentLoaded",function(){
             createUserDiv.append(createUserForm)
             createUserForm.append(inputTag, playButton_1)
             
+            
             createUserForm.addEventListener("submit", function(e){
                 e.preventDefault()
                 console.log(inputTag.value)
-                fetch('http://localhost:3000/user', {
+                fetch('http://localhost:3000/users', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -69,8 +85,10 @@ document.addEventListener("DOMContentLoaded",function(){
                     console.log(response)
                 })
             })
-        
+            
         })
+        
+    
 
 
 
