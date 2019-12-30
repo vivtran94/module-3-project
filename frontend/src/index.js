@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded",function(){
             createUserForm.setAttribute("class", "login-form")
             let inputTag = document.createElement("input")
             inputTag.type = "text"
-            inputTag.placeholder = "username"
+            inputTag.placeholder = "User Name"
             let playButton_1 = document.createElement("button")
             playButton_1.setAttribute("id","play1")
             playButton_1.innerText = "Play"
@@ -50,12 +50,26 @@ document.addEventListener("DOMContentLoaded",function(){
             createUserDiv.append(createUserForm)
             createUserForm.append(inputTag, playButton_1)
             
-        playButton_1.addEventListener("click", function(e){
-            e.preventDefault()
-            console.log("I was clicked")
-            
-        
+            createUserForm.addEventListener("submit", function(e){
+                e.preventDefault()
+                console.log(inputTag.value)
+                fetch('http://localhost:3000/user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: inputTag.value
+                    })
+                })
+                .then(function(response){
+                    return response.json()
+                })
+                .then(function(response){
+                    console.log(response)
+                })
             })
+        
         })
 
 
