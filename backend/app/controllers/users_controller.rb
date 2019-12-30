@@ -4,5 +4,14 @@ class UsersController < ApplicationController
         user = User.find_by(username: params[:username])
         render( json: user)
     end
-    
+
+    def create
+        new_user = User.create({
+            username: params[:username],
+            highscore: 0
+        })
+        render( json: new_user)
+
+    end
+
 end
