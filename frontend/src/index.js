@@ -20,9 +20,13 @@ document.addEventListener("DOMContentLoaded",function(){
         createAccount.setAttribute("id", "create")
         createAccount.innerText = "  Create Account" 
         createAccount.href = "#"  
+    let logMessage = document.createElement("h2")
+        logMessage.innerText = "Log in to play"
+
         
         document.body.append(welcome,formDiv)
         formDiv.append(div)
+        div.append(logMessage)
         div.append(loginForm)
         register.append(createAccount)
         loginForm.append(input,playButton,register)
@@ -46,6 +50,10 @@ document.addEventListener("DOMContentLoaded",function(){
             let playButton_1 = document.createElement("button")
             playButton_1.setAttribute("id","play1")
             playButton_1.innerText = "Play"
+            let createMessage = document.createElement("h2")
+            createMessage.innerText = "Create account to play"
+
+            createUserDiv.append(createMessage)
             document.body.append(createUserDiv)
             createUserDiv.append(createUserForm)
             createUserForm.append(inputTag, playButton_1)
