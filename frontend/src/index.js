@@ -1,4 +1,5 @@
 
+
 const ASSET_ROOT = "../characterImages/fish"
 const image = document.createElement('img')
 image.src = `${ASSET_ROOT}/fish.png`
@@ -30,6 +31,21 @@ if(e.key == 'ArrowDown') {
      image.style.bottom = `${bottom}px`    
 }
 })
+=======
+// let left = 0;
+// let bottom = 0;
+// let direction = null;
+// const swimRight = function(){
+//     direction = 'right'
+//     image.src = `${ASSET_ROOT}/fish.png`
+// }
+
+// document.addEventListener('keyright',function(){
+//     swimRight()
+// })
+
+
+
 
 document.addEventListener("DOMContentLoaded",function(){
     let welcome = document.createElement("h1")
