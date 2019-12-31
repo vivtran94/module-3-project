@@ -1,6 +1,4 @@
 const renderLogin = function(){
-    let welcome = document.createElement("h1")
-        welcome.innerText = "Welcome"
     let formDiv = document.createElement("div")
         formDiv.setAttribute("class", "login-page")
     let div = document.createElement("div")
@@ -22,9 +20,9 @@ const renderLogin = function(){
         createAccount.href = "#"  
     let logMessage = document.createElement("h2")
         logMessage.innerText = "Log in to play"   
-
-        
-    document.body.append(welcome, formDiv)
+  
+   
+    document.body.append(formDiv)
     formDiv.append(div)
     div.append(logMessage, loginForm)
     loginForm.append(input,playButton)
@@ -78,6 +76,9 @@ const renderLogin = function(){
         
             backButton.addEventListener("click", function(){
                 console.log("Back button clicked")
+                instructionDiv.remove()
+                renderLogin()
+                
             })
             document.body.append(instructionDiv)
             instructionDiv.append(instructionTag,a,instructionTag1,b,instructionTag2,c,instructionTag3,d,backButton)
@@ -121,7 +122,8 @@ const renderLogin = function(){
                     return response.json()
                 })
                 .then(function(response){
-                    console.log(response)
+                    playWasClicked()
+                    createUserDiv.remove()
                 })
             })
     })
