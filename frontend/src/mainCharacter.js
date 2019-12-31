@@ -1,6 +1,6 @@
-const ASSET_ROOT = "../characterImages/fish"
+const CHAR_ASSET_ROOT = "../characterImages/fish"
 const image = document.createElement('img')
-image.src = `${ASSET_ROOT}/fish.png`
+image.src = `${CHAR_ASSET_ROOT}/fish.png`
 document.body.append(image)
 image.style.height = "50px"
 image.style.width = "115px"
@@ -9,6 +9,38 @@ image.style.position = 'absolute';
 image.style.bottom = '400px'
 image.style.left = '650px'
 const moveBy = '2px'
+
+
+
+
+
+const slime = createEnemy()
+
+function wait(time){
+    return new Promise( function(resolve){
+        setTimeout(resolve, time)
+    })
+}
+
+let slimePath = async function(){
+    slime.bounceUp()
+    await wait(500)
+    slime.bounceLeft()
+    await wait(500)
+    slime.bounceDown()
+    await wait(500)
+    slime.bounceRight()
+    await wait(500)
+    slime.bounceUp()
+    slimePath()
+}
+slimePath()
+
+
+
+
+
+
 
 document.addEventListener('keydown',function(e){
  if(e.key == 'ArrowRight') {

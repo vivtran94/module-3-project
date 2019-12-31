@@ -1,58 +1,63 @@
-const ASSET_ROOT = "../characterImages/enemy"
+const ENEMY_ASSET_ROOT = "../characterImages/enemy"
  function createEnemy(){
-const image = document.createElement('img')
-image.src = `${ASSET_ROOT}/enemy.gif`
-document.body.append(image)
-image.style.height = "250px"
-image.style.width = "250px"
-image.style.position = 'absolute';
-image.style.bottom = '0px'
-image.style.left = '0px'
+const eImage = document.createElement('img')
+eImage.src = `${ENEMY_ASSET_ROOT}/enemy.gif`
+document.body.append(eImage)
+eImage.style.height = "150px"
+eImage.style.width = "150px"
+eImage.style.position = 'absolute';
+eImage.style.bottom = '470px'
+eImage.style.left = '1300px'
 
-let bottom = 0;
-let left = 0;
+let bottom = parseInt(eImage.style.bottom);
+let left = parseInt(eImage.style.left);
 let direction = null;
-const bounceRight = function(){
-     direction = 'right'
 
-}
-const bounceUp = function(){
-     direction = 'up'
-}
-
-const bounceDown = function(){
-     direction = 'down'
-}
-const bounceLeft = function(){
-    direction = 'left'
-}
-const stop = function (){
-    let direction = null
-}
 const move = function(){
     if(direction == 'right'){
         left = left + 1;
-        image.style.left = `${left}px`
+        eImage.style.left = `${left}px`
         
     }
     if(direction == 'left'){
         left = left - 1;
-        image.style.left = `${left}px`
+        eImage.style.left = `${left}px`
         
         }
     if(direction == 'up'){
         bottom = bottom + 1;
-        image.style.bottom = `${bottom}px`
+        eImage.style.bottom = `${bottom}px`
       
         }
     if(direction == 'down'){
         bottom = bottom - 1;
-        image.style.bottom = `${bottom}px`
+        eImage.style.bottom = `${bottom}px`
         
         }
 }
 
+const enemyObject = {
+    enemyImage: eImage,
+    bounceRight: function(){
+        direction = 'right'
+   
+   },
+    bounceUp: function(){
+        direction = 'up'
+   },
+   
+    bounceDown: function(){
+        direction = 'down'
+   },
+    bounceLeft: function(){
+       direction = 'left'
+   },
+    stop: function (){
+       direction = null;
+   }
+}
 setInterval(move, 60/1000)
+return enemyObject
 }
 
 
