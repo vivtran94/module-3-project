@@ -16,7 +16,7 @@ document.addEventListener('keydown',function(e){
      left = parseInt(image.style.left) + 10
     console.log(left)
       image.style.left = `${left}px`    
- }
+}
  if(e.key == 'ArrowLeft') {
     left = parseInt(image.style.left) - 10
      image.style.left = `${left}px`
@@ -30,20 +30,6 @@ if(e.key == 'ArrowDown') {
      image.style.bottom = `${bottom}px`    
 }
 })
-
-// let left = 0;
-// let bottom = 0;
-// let direction = null;
-// const swimRight = function(){
-//     direction = 'right'
-//     image.src = `${ASSET_ROOT}/fish.png`
-// }
-
-// document.addEventListener('keyright',function(){
-//     swimRight()
-// })
-
-
 
 document.addEventListener("DOMContentLoaded",function(){
     let welcome = document.createElement("h1")
@@ -69,14 +55,25 @@ document.addEventListener("DOMContentLoaded",function(){
         createAccount.href = "#"  
     let logMessage = document.createElement("h2")
         logMessage.innerText = "Log in to play"
+    let instructionButton = document.createElement("button")
+        instructionButton.innerText = "Intructions"
+instructionButton.addEventListener("click", function(){
+    loginForm = document.querySelector(".form")
+    loginForm.remove()
+        console.log("I was clicked")
+
+
+})        
+    let breakLine = document.createElement("p")
+        breakLine.innerText = ""    
 
         
         document.body.append(welcome,formDiv)
         formDiv.append(div)
         div.append(logMessage)
-        div.append(loginForm)
+        div.append(loginForm,breakLine,instructionButton,register)
+        loginForm.append(input,playButton)
         register.append(createAccount)
-        loginForm.append(input,playButton,register)
         
         loginForm.addEventListener("submit", function(e){
             e.preventDefault()
