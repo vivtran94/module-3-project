@@ -1,37 +1,4 @@
-
-const ASSET_ROOT = "../characterImages/fish"
-const image = document.createElement('img')
-image.src = `${ASSET_ROOT}/fish.png`
-document.body.append(image)
-image.style.height = "50px"
-image.style.width = "115px"
-document.body.style = "background-color: blue"
-image.style.position = 'absolute';
-image.style.bottom = '400px'
-image.style.left = '650px'
-const moveBy = '2px'
-
-document.addEventListener('keydown',function(e){
- if(e.key == 'ArrowRight') {
-     left = parseInt(image.style.left) + 10
-    console.log(left)
-      image.style.left = `${left}px`    
-}
- if(e.key == 'ArrowLeft') {
-    left = parseInt(image.style.left) - 10
-     image.style.left = `${left}px`
-}
-if(e.key == 'ArrowUp') {
-    bottom = parseInt(image.style.bottom) + 10
-     image.style.bottom = `${bottom}px`   
-}
-if(e.key == 'ArrowDown') {
-    bottom = parseInt(image.style.bottom) - 10
-     image.style.bottom = `${bottom}px`    
-}
-})
-
-const renderLoginPage = function(){
+document.addEventListener("DOMContentLoaded",function(){
     let welcome = document.createElement("h1")
         welcome.innerText = "Welcome"
     let formDiv = document.createElement("div")
@@ -61,64 +28,56 @@ const renderLoginPage = function(){
     formDiv.append(div)
     div.append(logMessage, loginForm)
     loginForm.append(input,playButton)
-}
-
-document.addEventListener("DOMContentLoaded",function(){
-    renderLoginPage()
-    
-    
-        
-        loginForm.addEventListener("submit", function(e){
-            e.preventDefault()
-            console.log(input.value)
-            fetch('http://localhost:3000/users', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    username: input.value
-                })
-            })
-            .then(function(response){
-                return response.json()
-            })
-            .then(function(response){
-                console.log(response)
+  
+    loginForm.addEventListener("submit", function(e){
+        e.preventDefault()
+        console.log(input.value)
+        fetch('http://localhost:3000/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: input.value
             })
         })
+        .then(function(response){
+            return response.json()
+        })
+        .then(function(response){
+            console.log(response)
+        })
+    })
     
-        let instructionButton = document.createElement("button") 
+    let instructionButton = document.createElement("button") 
         instructionButton.innerText = "Intructions"
         
-        div.append(instructionButton,register)
-        register.append(createAccount)   
+    div.append(instructionButton,register)
+    register.append(createAccount)   
     
         instructionButton.addEventListener("click", function(){
-        
             loginForm = document.querySelector(".form")
             loginForm.remove()
-        let instructionTag = document.createElement("li")
+            let instructionTag = document.createElement("li")
             instructionTag.innerText = "Collect the item in the middle to increase your strength."
-        let instructionTag1 = document.createElement("li")
+            let instructionTag1 = document.createElement("li")
             instructionTag1.innerText = "Move with the arrow keys and avoid the enemys untill you are strong enough to kill them."
-        let instructionTag2 = document.createElement("li")
+            let instructionTag2 = document.createElement("li")
             instructionTag2.innerText = "You will gain size as your strength increases."
-        let instructionTag3 = document.createElement("li")
+            let instructionTag3 = document.createElement("li")
             instructionTag3.innerText = "Most importantly have fun :)"
-        let a  = document.createElement("br")
-        let b  = document.createElement("br")
-        let c  = document.createElement("br")
-        let d = document.createElement("br")
-        let backButton = document.createElement("button")
+            let a = document.createElement("br")
+            let b = document.createElement("br")
+            let c = document.createElement("br")
+            let d = document.createElement("br")
+            let backButton = document.createElement("button")
             backButton.innerText = "Go Back"
-        let instructionDiv = document.createElement("div")
+            let instructionDiv = document.createElement("div")
             instructionDiv.setAttribute("class","form")
         
             backButton.addEventListener("click", function(){
-            console.log("I was clicked")
-
-        })
+                console.log("Back button clicked")
+            })
             document.body.append(instructionDiv)
             instructionDiv.append(instructionTag,a,instructionTag1,b,instructionTag2,c,instructionTag3,d,backButton)
         })
@@ -165,6 +124,51 @@ document.addEventListener("DOMContentLoaded",function(){
                 })
             })
     })
+
+    playButton.addEventListener("click", function(){
+        formDiv.remove()
+        const ASSET_ROOT = "../characterImages/fish"
+        const image = document.createElement('img')
+        image.src = `${ASSET_ROOT}/fish.png`
+        document.body.append(image)
+        image.style.height = "50px"
+        image.style.width = "115px"
+        document.body.style = "background-color: blue"
+        image.style.position = 'absolute';
+        image.style.bottom = '400px'
+        image.style.left = '650px'
+        const moveBy = '2px'
+
+        document.addEventListener('keydown',function(e){
+            if(e.key == 'ArrowRight') {
+                left = parseInt(image.style.left) + 10
+                console.log(left)
+                image.style.left = `${left}px`    
+            }
+            if(e.key == 'ArrowLeft') {
+                left = parseInt(image.style.left) - 10
+                image.style.left = `${left}px`
+            }
+            if(e.key == 'ArrowUp') {
+                bottom = parseInt(image.style.bottom) + 10
+                image.style.bottom = `${bottom}px`   
+            }
+            if(e.key == 'ArrowDown') {
+                bottom = parseInt(image.style.bottom) - 10
+                image.style.bottom = `${bottom}px`    
+            }
+        })
+    })
 })
+
+
+
+
+
+
+
+
+
+
 
 
