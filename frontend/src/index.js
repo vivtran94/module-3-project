@@ -31,11 +31,11 @@ if(e.key == 'ArrowDown') {
 }
 })
 
-document.addEventListener("DOMContentLoaded",function(){
+const renderLoginPage = function(){
     let welcome = document.createElement("h1")
         welcome.innerText = "Welcome"
     let formDiv = document.createElement("div")
-        formDiv.setAttribute("class","login-page")
+        formDiv.setAttribute("class", "login-page")
     let div = document.createElement("div")
         div.setAttribute("class","form")
     let loginForm = document.createElement("form")
@@ -54,26 +54,19 @@ document.addEventListener("DOMContentLoaded",function(){
         createAccount.innerText = "  Create Account" 
         createAccount.href = "#"  
     let logMessage = document.createElement("h2")
-        logMessage.innerText = "Log in to play"
-    let instructionButton = document.createElement("button")
-        instructionButton.innerText = "Intructions"
-instructionButton.addEventListener("click", function(){
-    loginForm = document.querySelector(".form")
-    loginForm.remove()
-        console.log("I was clicked")
-
-
-})        
-    let breakLine = document.createElement("p")
-        breakLine.innerText = ""    
+        logMessage.innerText = "Log in to play"   
 
         
-        document.body.append(welcome,formDiv)
-        formDiv.append(div)
-        div.append(logMessage)
-        div.append(loginForm,breakLine,instructionButton,register)
-        loginForm.append(input,playButton)
-        register.append(createAccount)
+    document.body.append(welcome, formDiv)
+    formDiv.append(div)
+    div.append(logMessage, loginForm)
+    loginForm.append(input,playButton)
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+    renderLoginPage()
+    
+    
         
         loginForm.addEventListener("submit", function(e){
             e.preventDefault()
@@ -94,11 +87,45 @@ instructionButton.addEventListener("click", function(){
                 console.log(response)
             })
         })
+    
+        let instructionButton = document.createElement("button") 
+        instructionButton.innerText = "Intructions"
+        
+        div.append(instructionButton,register)
+        register.append(createAccount)   
+    
+        instructionButton.addEventListener("click", function(){
+        
+            loginForm = document.querySelector(".form")
+            loginForm.remove()
+        let instructionTag = document.createElement("li")
+            instructionTag.innerText = "Collect the item in the middle to increase your strength."
+        let instructionTag1 = document.createElement("li")
+            instructionTag1.innerText = "Move with the arrow keys and avoid the enemys untill you are strong enough to kill them."
+        let instructionTag2 = document.createElement("li")
+            instructionTag2.innerText = "You will gain size as your strength increases."
+        let instructionTag3 = document.createElement("li")
+            instructionTag3.innerText = "Most importantly have fun :)"
+        let a  = document.createElement("br")
+        let b  = document.createElement("br")
+        let c  = document.createElement("br")
+        let d = document.createElement("br")
+        let backButton = document.createElement("button")
+            backButton.innerText = "Go Back"
+        let instructionDiv = document.createElement("div")
+            instructionDiv.setAttribute("class","form")
+        
+            backButton.addEventListener("click", function(){
+            console.log("I was clicked")
+
+        })
+            document.body.append(instructionDiv)
+            instructionDiv.append(instructionTag,a,instructionTag1,b,instructionTag2,c,instructionTag3,d,backButton)
+        })
         
         createAccount.addEventListener("click", function(){
             loginForm = document.querySelector(".form")
             loginForm.remove()
-            // document.body.innerText = ""
             let createUserDiv = document.createElement("div")
             createUserDiv.setAttribute("class", "form")
             let createUserForm = document.createElement("form")
@@ -137,13 +164,7 @@ instructionButton.addEventListener("click", function(){
                     console.log(response)
                 })
             })
-            
-        })
-        
-    
-
-
-
+    })
 })
 
 
