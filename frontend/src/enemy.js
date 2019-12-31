@@ -67,4 +67,3 @@ setInterval(move, 60/1000)
 
 
 
-
