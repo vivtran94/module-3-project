@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded",function(){
+const renderLogin = function(){
     let welcome = document.createElement("h1")
         welcome.innerText = "Welcome"
     let formDiv = document.createElement("div")
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded",function(){
     formDiv.append(div)
     div.append(logMessage, loginForm)
     loginForm.append(input,playButton)
-  
+
     loginForm.addEventListener("submit", function(e){
         e.preventDefault()
         console.log(input.value)
@@ -46,9 +46,10 @@ document.addEventListener("DOMContentLoaded",function(){
         })
         .then(function(response){
             console.log(response)
+            playWasClicked()
         })
     })
-    
+
     let instructionButton = document.createElement("button") 
         instructionButton.innerText = "Intructions"
         
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded",function(){
             document.body.append(instructionDiv)
             instructionDiv.append(instructionTag,a,instructionTag1,b,instructionTag2,c,instructionTag3,d,backButton)
         })
-        
+
         createAccount.addEventListener("click", function(){
             loginForm = document.querySelector(".form")
             loginForm.remove()
@@ -124,41 +125,46 @@ document.addEventListener("DOMContentLoaded",function(){
                 })
             })
     })
+}
 
-    playButton.addEventListener("click", function(){
-        formDiv.remove()
-        const ASSET_ROOT = "../characterImages/fish"
-        const image = document.createElement('img')
-        image.src = `${ASSET_ROOT}/fish.png`
-        document.body.append(image)
-        image.style.height = "50px"
-        image.style.width = "115px"
-        document.body.style = "background-color: blue"
-        image.style.position = 'absolute';
-        image.style.bottom = '400px'
-        image.style.left = '650px'
-        const moveBy = '2px'
+const playWasClicked = function() {
+    const formDiv = document.querySelector(".login-page")
+    formDiv.remove()
+    const ASSET_ROOT = "../characterImages/fish"
+    const image = document.createElement('img')
+    image.src = `${ASSET_ROOT}/fish.png`
+    document.body.append(image)
+    image.style.height = "50px"
+    image.style.width = "115px"
+    document.body.style = "background-color: blue"
+    image.style.position = 'absolute';
+    image.style.bottom = '400px'
+    image.style.left = '650px'
+    const moveBy = '2px'
 
-        document.addEventListener('keydown',function(e){
-            if(e.key == 'ArrowRight') {
-                left = parseInt(image.style.left) + 10
-                console.log(left)
-                image.style.left = `${left}px`    
-            }
-            if(e.key == 'ArrowLeft') {
-                left = parseInt(image.style.left) - 10
-                image.style.left = `${left}px`
-            }
-            if(e.key == 'ArrowUp') {
-                bottom = parseInt(image.style.bottom) + 10
-                image.style.bottom = `${bottom}px`   
-            }
-            if(e.key == 'ArrowDown') {
-                bottom = parseInt(image.style.bottom) - 10
-                image.style.bottom = `${bottom}px`    
-            }
-        })
+    document.addEventListener('keydown',function(e){
+        if(e.key == 'ArrowRight') {
+            left = parseInt(image.style.left) + 10
+            console.log(left)
+            image.style.left = `${left}px`    
+        }
+        if(e.key == 'ArrowLeft') {
+            left = parseInt(image.style.left) - 10
+            image.style.left = `${left}px`
+        }
+        if(e.key == 'ArrowUp') {
+            bottom = parseInt(image.style.bottom) + 10
+            image.style.bottom = `${bottom}px`   
+        }
+        if(e.key == 'ArrowDown') {
+            bottom = parseInt(image.style.bottom) - 10
+            image.style.bottom = `${bottom}px`    
+        }
     })
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+    renderLogin()
 })
 
 
