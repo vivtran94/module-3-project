@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded",function(){
         loginForm.addEventListener("submit", function(e){
             e.preventDefault()
             console.log(input.value)
-            fetch('http://localhost:3000/users', {
+            fetch('http://localhost:3000/user', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
