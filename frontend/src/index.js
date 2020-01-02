@@ -188,7 +188,7 @@ const playWasClicked = function(user) {
     const move = function(){
         if(direction == 'right'){
             left = left + speed;
-            if(left + parseInt(image.style.width) < window.innerWidth){ 
+            if(left + parseInt(worm.style.width) < window.innerWidth){ 
                 worm.style.left = `${left}px`
             } 
             else {
