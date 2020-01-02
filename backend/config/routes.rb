@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get('/users', { to: 'users#create' })
   post('/user', { to: 'users#get_user' })
   get('/user', { to: 'users#get_user' })
+  patch('/user', { to: 'users#update_highscore'})
   
 
 end

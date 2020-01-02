@@ -14,4 +14,12 @@ class UsersController < ApplicationController
 
     end
 
+    def update_highscore
+        user = User.find_by(username: params[:username])
+        user.update({
+            highscore: params[:highscore]
+        })
+
+    end
+
 end
