@@ -371,6 +371,7 @@ const playWasClicked = function(user) {
     }
     slugPath()
 
+    //APPLE SPAWN
     let apple = createEnemy("apple", 400, 400, 4, 4)
     const appleX = window.innerWidth
     const appleY = window.innerHeight
@@ -381,36 +382,24 @@ const playWasClicked = function(user) {
     }
     setInterval(appleMove,3500)
 
-
-    //APPLE SPAWN
-    const STR_ASSET_ROOT = "../characterImages"
-    function createSTR(){
-        const strImage = document.createElement('img')
-        document.body.append(strImage)
-        strImage.src = `${STR_ASSET_ROOT}/apple.gif`
-        strImage.style.position = 'fixed'
-        strImage.style.height = "25px"
-        strImage.style.width = "25px"
-        //apple sound
-        const bite = document.createElement('audio')
-        document.body.append(bite)
-        bite.setAttribute('src','applebiteog.mp3')
-        
-       
-        function appleMove(){
-
-            strImage.style.bottom = Math.round(Math.random() * x) + 'px'
-            strImage.style.left = Math.round(Math.random() * y) + 'px'
-            }
-
-            setInterval(appleMove,3000)
-    }
-
     //ENEMY COLLISION
     let collisionInterval = setInterval(()=>{
         if (isColliding(worm,ladybug) || isColliding(worm,firefly) || isColliding(worm,strider) || isColliding(worm,slug)){
             console.log("Collided")
+            console.log(user)
             clearInterval(collisionInterval)
+            if (user.highscore < scoreCounter) {
+                fetch('http://localhost:3000/user', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: user.username,
+                        highscore: scoreCounter
+                    })
+                })
+            }
             alert("Game Over")
             document.body.innerText = ""
             document.body.style.background = "#6cb7f5"
@@ -441,27 +430,6 @@ const playWasClicked = function(user) {
         const eImageWidth = parseInt(img2.eImage.style.width)
         const eImageHeight = parseInt(img2.eImage.style.height)
         
-
-        if( imageLeft + imageWidth > eImageLeft &&
-            eImageLeft + eImageWidth > imageLeft &&
-            imageBottom + imageHeight > eImageBottom &&
-            eImageBottom + eImageHeight > imageBottom ){   
-            return true
-        } else {
-            return false
-        }
-    }
-
-    //APPLE COLLISION
-    const appleColliding = (img1, img2) => {
-        const imageLeft = parseInt(img1.style.left)
-        const imageBottom = parseInt(img1.style.bottom)
-        const imageWidth = parseInt(img1.style.width)
-        const imageHeight = parseInt(img1.style.height)
-        const eImageLeft = parseInt(img2.eImage.style.left)
-        const eImageBottom = parseInt(img2.eImage.style.bottom)
-        const eImageWidth = parseInt(img2.eImage.style.width)
-        const eImageHeight = parseInt(img2.eImage.style.height)
 
         if( imageLeft + imageWidth > eImageLeft &&
             eImageLeft + eImageWidth > imageLeft &&
