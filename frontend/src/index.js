@@ -163,7 +163,7 @@ const playWasClicked = function(user) {
     let direction = null;
     let left = 100;
     let bottom = 100;
-    let speed = 1;
+    let speed = 2;
 
     incrementWormSize = () => {
         wormSize++
@@ -238,7 +238,7 @@ const playWasClicked = function(user) {
     function createEnemy(enemyName, x, y, height, width){
         let ENEMY_ASSET_ROOT = `../characterImages/${enemyName}`
         const eImage = document.createElement('img')
-        eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_up.gif`
+        eImage.src = `${ENEMY_ASSET_ROOT}/${enemyName}.gif`
         document.body.append(eImage)
         eImage.style.height = `${(height/100) * parseInt(window.innerHeight)}px`
         eImage.style.width = `${(width/100) * parseInt(window.innerWidth)}px`
@@ -370,8 +370,18 @@ const playWasClicked = function(user) {
     }
     slugPath()
 
+    let apple = createEnemy("apple", 400, 400, 4, 4)
+    const appleX = window.innerWidth
+    const appleY = window.innerHeight
+
+    function appleMove(){
+        apple.eImage.style.bottom = Math.round(Math.random() * appleX) + 'px'
+        apple.eImage.style.left = Math.round(Math.random() * appleY) + 'px'
+    }
+    setInterval(appleMove,3500)
+
+
     //APPLE SPAWN
-    const apples = []
     const STR_ASSET_ROOT = "../characterImages"
     function createSTR(){
         const strImage = document.createElement('img')
@@ -381,23 +391,14 @@ const playWasClicked = function(user) {
         strImage.style.height = "50px"
         strImage.style.width = "50px"
         
-        const x = window.innerWidth
-        const y = window.innerHeight
+        
     
-        function appleMove(){
-            strImage.style.bottom = Math.round(Math.random() * x) + 'px'
-            strImage.style.left = Math.round(Math.random() * y) + 'px'
-            }
-            setInterval(appleMove,1500)
+        
     }
-    createSTR()
 
-    
 
-    //COLLISION
+    //ENEMY COLLISION
     let collisionInterval = setInterval(()=>{
-        // console.log("in here")
-        console.log(isColliding(worm,ladybug))
         if (isColliding(worm,ladybug) || isColliding(worm,firefly) || isColliding(worm,strider) || isColliding(worm,slug)){
             console.log("Collided")
             clearInterval(collisionInterval)
@@ -406,6 +407,19 @@ const playWasClicked = function(user) {
             document.body.style.background = "#6cb7f5"
             renderLogin()
         }
+        if (isColliding(worm, apple)){
+            console.log("found the apple!!")
+            scoreCounter = scoreCounter + 50
+            strCounter = strCounter + 1
+            scoreDisplay.innerText = `Score: ${scoreCounter}`    
+            strDisplay.innerText = `Strength: ${strCounter}`
+            if (strCounter == 50){
+                console.log("worm is growing")
+                incrementWormSize()
+                
+            }
+        }
+        
     },50)
 
     const isColliding = (img1, img2) => {
@@ -418,6 +432,27 @@ const playWasClicked = function(user) {
         const eImageWidth = parseInt(img2.eImage.style.width)
         const eImageHeight = parseInt(img2.eImage.style.height)
         
+
+        if( imageLeft + imageWidth > eImageLeft &&
+            eImageLeft + eImageWidth > imageLeft &&
+            imageBottom + imageHeight > eImageBottom &&
+            eImageBottom + eImageHeight > imageBottom ){   
+            return true
+        } else {
+            return false
+        }
+    }
+
+    //APPLE COLLISION
+    const appleColliding = (img1, img2) => {
+        const imageLeft = parseInt(img1.style.left)
+        const imageBottom = parseInt(img1.style.bottom)
+        const imageWidth = parseInt(img1.style.width)
+        const imageHeight = parseInt(img1.style.height)
+        const eImageLeft = parseInt(img2.eImage.style.left)
+        const eImageBottom = parseInt(img2.eImage.style.bottom)
+        const eImageWidth = parseInt(img2.eImage.style.width)
+        const eImageHeight = parseInt(img2.eImage.style.height)
 
         if( imageLeft + imageWidth > eImageLeft &&
             eImageLeft + eImageWidth > imageLeft &&
