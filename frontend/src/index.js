@@ -152,8 +152,9 @@ const playWasClicked = function(user) {
     const worm = document.createElement('img')
     worm.src = ASSET_ROOT
     document.body.append(worm)
-    worm.style.height = "4%"
-    worm.style.width = "4%"
+    wormSize = 4
+    worm.style.height = `${(wormSize/100) * parseInt(window.innerHeight)}px`
+    worm.style.width = `${(wormSize/100) * parseInt(window.innerWidth)}px`
     worm.style.position = 'absolute';
     worm.style.bottom = '100px'
     worm.style.left = '100px'
@@ -162,7 +163,13 @@ const playWasClicked = function(user) {
     let direction = null;
     let left = 100;
     let bottom = 100;
-    let speed = 3;
+    let speed = 1;
+
+    incrementWormSize = () => {
+        wormSize++
+        worm.style.height = `${(wormSize/100) * parseInt(window.innerHeight)}px`
+        worm.style.width = `${(wormSize/100) * parseInt(window.innerWidth)}px`
+    }
 
     document.addEventListener('keydown',function(e){
         if(e.key == 'ArrowRight' && direction != 'right'){
@@ -178,12 +185,12 @@ const playWasClicked = function(user) {
         }
         if(e.key == 'ArrowDown' && direction != 'down') {
             direction = "down"
-        }  
+        }       
     })
 
-    // document.addEventListener('keyup', function(){
-    //     direction = null
-    // })
+    document.addEventListener('keyup', function(){
+        direction = null
+    })
 
     const move = function(){
         if(direction == 'right'){
@@ -196,7 +203,6 @@ const playWasClicked = function(user) {
             }
         }
         if(direction == 'left'){
-            console.log("in here")
             left = left - speed;
             if(left > 0){
                 worm.style.left = `${left}px`
@@ -234,8 +240,8 @@ const playWasClicked = function(user) {
         const eImage = document.createElement('img')
         eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_up.gif`
         document.body.append(eImage)
-        eImage.style.height = `${height}%`
-        eImage.style.width = `${width}%`
+        eImage.style.height = `${(height/100) * parseInt(window.innerHeight)}px`
+        eImage.style.width = `${(width/100) * parseInt(window.innerWidth)}px`
         eImage.style.position = 'absolute'
         eImage.style.bottom = `${y}px`
         eImage.style.left = `${x}px`
@@ -381,6 +387,8 @@ const playWasClicked = function(user) {
 
     //COLLISION
     let collisionInterval = setInterval(()=>{
+        // console.log("in here")
+        console.log(isColliding(worm,ladybug))
         if (isColliding(worm,ladybug) || isColliding(worm,firefly) || isColliding(worm,strider) || isColliding(worm,slug)){
             console.log("Collided")
             clearInterval(collisionInterval)
