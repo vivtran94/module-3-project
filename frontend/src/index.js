@@ -416,17 +416,16 @@ const playWasClicked = function(user) {
                 document.body.append(bite)
                 bite.src = APPLESOUND
                 bite.play()
+                scoreCounter = scoreCounter + 50
+                strCounter = strCounter + 1
+                scoreDisplay.innerText = `Score: ${scoreCounter}`    
+                strDisplay.innerText = `Strength: ${strCounter}`
+                if (strCounter == 5){
+                    console.log("worm is growing")
+                    incrementWormSize()
+                }
                 setTimeout(()=>{isHungry = true},2000)
-            }
-
-            scoreCounter = scoreCounter + 50
-            strCounter = strCounter + 1
-            scoreDisplay.innerText = `Score: ${scoreCounter}`    
-            strDisplay.innerText = `Strength: ${strCounter}`
-            if (strCounter == 5){
-                console.log("worm is growing")
-                incrementWormSize()
-                
+  
             }
         }
         
