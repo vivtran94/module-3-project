@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded",function(){
     renderLogin()
 })
 
-
 const renderLogin = function(){
     let formDiv = document.createElement("div")
         formDiv.setAttribute("class", "login-page")
@@ -29,7 +28,6 @@ const renderLogin = function(){
         instructionButton.innerText = "Intructions"
     let lineBreak = document.createElement("p")
 
-  
     document.body.append(formDiv)
     formDiv.append(div)
     div.append(logMessage, loginForm, lineBreak, instructionButton, register)
@@ -84,7 +82,6 @@ const renderLogin = function(){
         })
         document.body.append(instructionDiv)
         instructionDiv.append(instructionTag,a,instructionTag1,b,instructionTag2,c,instructionTag3,d,backButton)
-        
     })
 
     createAccount.addEventListener("click", function(){
@@ -107,7 +104,6 @@ const renderLogin = function(){
         document.body.append(createUserDiv)
         createUserDiv.append(createUserForm)
         createUserForm.append(inputTag, playButton_1)
-                
                 
         createUserForm.addEventListener("submit", function(e){
             e.preventDefault()
@@ -133,6 +129,7 @@ const renderLogin = function(){
 }
 
 const playWasClicked = function(user) {
+    //BACKGROUND SETTINGS
     document.body.style.background = "url(../characterImages/dirt_background.jpg) center top no-repeat"
     document.body.style.backgroundSize = "cover"
     const formDiv = document.querySelector(".login-page")
@@ -141,12 +138,17 @@ const playWasClicked = function(user) {
     usernameDisplay.innerText = user.username
     let highscoreDisplay = document.createElement("h4")
     highscoreDisplay.innerText = `Highscore: ${user.highscore}`
-    let currentscoreDisplay = document.createElement("h4")
-    let counter = 0
-    currentscoreDisplay.innerText = `Current score: ${counter}`
-    document.body.append(usernameDisplay, highscoreDisplay, currentscoreDisplay)
+    let scoreDisplay = document.createElement("h4")
+    let scoreCounter = 0
+    scoreDisplay.innerText = `Score: ${scoreCounter}`
+    let strDisplay = document.createElement("h4")
+    let strCounter = 0
+    strDisplay.innerText = `Strength: ${strCounter}`
+    document.body.append(usernameDisplay, highscoreDisplay, scoreDisplay, strDisplay)
 
-    const ASSET_ROOT = "../characterImages/animated_worm_right.gif"
+
+    //MAIN CHARACTER SETTINGS
+    const ASSET_ROOT = "../characterImages/worm_right.gif"
     const image = document.createElement('img')
     image.src = ASSET_ROOT
     document.body.append(image)
@@ -163,11 +165,11 @@ const playWasClicked = function(user) {
 
     document.addEventListener('keydown',function(e){
         if(e.key == 'ArrowRight' && direction != 'right'){
-            image.src = ASSET_ROOT
+            image.src = "../characterImages/worm_right.gif"
             direction = "right"
         }
         if(e.key == 'ArrowLeft' && direction != 'left') {
-            image.src = "../characterImages/animated_worm_left.gif"
+            image.src = "../characterImages/worm_left.gif"
             direction = "left"
         }
         if(e.key == 'ArrowUp' && direction != 'up') {
@@ -178,9 +180,9 @@ const playWasClicked = function(user) {
         }  
     })
 
-    // document.addEventListener('keyup', function(){
-    //     direction = null
-    // })
+    document.addEventListener('keyup', function(){
+        direction = null
+    })
 
     const move = function(){
         if(direction == 'right'){
@@ -202,7 +204,90 @@ const playWasClicked = function(user) {
     }
     
     setInterval(move, 60/1000)
-    
+
+    //ENEMY SETTINGS
+    const ENEMY_ASSET_ROOT = "../characterImages"
+    function createEnemy(){
+        const eImage = document.createElement('img')
+        eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_up.gif`
+        document.body.append(eImage)
+        eImage.style.height = "100px"
+        eImage.style.width = "100px"
+        eImage.style.position = 'absolute'
+        eImage.style.bottom = '300px'
+        eImage.style.left = '300px'
+
+        let bottom = parseInt(eImage.style.bottom)
+        let left = parseInt(eImage.style.left)
+        let direction = null
+
+        const move = function(){
+            if(direction == 'right'){
+                left = left + 1;
+                eImage.style.left = `${left}px` 
+            }
+            if(direction == 'left'){
+                left = left - 1;
+                eImage.style.left = `${left}px`    
+            }
+            if(direction == 'up'){
+                bottom = bottom + 1;
+                eImage.style.bottom = `${bottom}px`
+            }
+            if(direction == 'down'){
+                bottom = bottom - 1;
+                eImage.style.bottom = `${bottom}px` 
+            }
+        }   
+
+        const enemyObject = {
+            enemyImage: eImage,
+            bounceRight: function(){
+                direction = 'right'
+                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_right.gif`
+            },
+            bounceUp: function(){
+                direction = 'up'
+                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_up.gif`
+            },
+            bounceDown: function(){
+                direction = 'down'
+                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_down.gif`
+            },
+            bounceLeft: function(){
+                direction = 'left'
+                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_left.gif`
+            },
+            stop: function (){
+                direction = null
+            }
+        }
+        setInterval(move, 60/1000)
+        return enemyObject
+    }
+
+    const slime = createEnemy()
+
+    function wait(time){
+        return new Promise(function(resolve){
+            setTimeout(resolve, time)
+        })
+    }
+
+    let slimePath = async function(){
+        slime.bounceUp()
+        await wait(500)
+        slime.bounceLeft()
+        await wait(500)
+        slime.bounceDown()
+        await wait(500)
+        slime.bounceRight()
+        await wait(500)
+        slime.bounceUp()
+        slimePath()
+    }
+
+    slimePath()
 }
 
 
