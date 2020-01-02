@@ -152,8 +152,8 @@ const playWasClicked = function(user) {
     const image = document.createElement('img')
     image.src = ASSET_ROOT
     document.body.append(image)
-    image.style.height = "100px"
-    image.style.width = "100px"
+    image.style.height = "4%"
+    image.style.width = "4%"
     image.style.position = 'absolute';
     image.style.bottom = '100px'
     image.style.left = '100px'
@@ -181,9 +181,9 @@ const playWasClicked = function(user) {
         }  
     })
 
-    document.addEventListener('keyup', function(){
-        direction = null
-    })
+    // document.addEventListener('keyup', function(){
+    //     direction = null
+    // })
 
     const move = function(){
         if(direction == 'right'){
@@ -228,16 +228,17 @@ const playWasClicked = function(user) {
     setInterval(move, 60/1000)
 
     //ENEMY SETTINGS
-    const ENEMY_ASSET_ROOT = "../characterImages"
-    function createEnemy(){
+    
+    function createEnemy(enemyName, x, y, height, width){
+        let ENEMY_ASSET_ROOT = `../characterImages/${enemyName}`
         const eImage = document.createElement('img')
         eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_up.gif`
         document.body.append(eImage)
-        eImage.style.height = "100px"
-        eImage.style.width = "100px"
+        eImage.style.height = `${height}%`
+        eImage.style.width = `${width}%`
         eImage.style.position = 'absolute'
-        eImage.style.bottom = '300px'
-        eImage.style.left = '300px'
+        eImage.style.bottom = `${y}px`
+        eImage.style.left = `${x}px`
 
         let bottom = parseInt(eImage.style.bottom)
         let left = parseInt(eImage.style.left)
@@ -263,22 +264,22 @@ const playWasClicked = function(user) {
         }   
 
         const enemyObject = {
-            enemyImage: eImage,
+            eImage,
             bounceRight: function(){
                 direction = 'right'
-                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_right.gif`
+                eImage.src = `${ENEMY_ASSET_ROOT}/walkright.gif`
             },
             bounceUp: function(){
                 direction = 'up'
-                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_up.gif`
+                eImage.src = `${ENEMY_ASSET_ROOT}/walkup.gif`
             },
             bounceDown: function(){
                 direction = 'down'
-                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_down.gif`
+                eImage.src = `${ENEMY_ASSET_ROOT}/walkdown.gif`
             },
             bounceLeft: function(){
                 direction = 'left'
-                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_left.gif`
+                eImage.src = `${ENEMY_ASSET_ROOT}/walkleft.gif`
             },
             stop: function (){
                 direction = null
@@ -288,7 +289,7 @@ const playWasClicked = function(user) {
         return enemyObject
     }
 
-    const slime = createEnemy()
+    
 
     function wait(time){
         return new Promise(function(resolve){
@@ -296,20 +297,21 @@ const playWasClicked = function(user) {
         })
     }
 
-    let slimePath = async function(){
-        slime.bounceUp()
-        await wait(500)
-        slime.bounceLeft()
-        await wait(500)
-        slime.bounceDown()
-        await wait(500)
-        slime.bounceRight()
-        await wait(500)
-        slime.bounceUp()
-        slimePath()
+    const ladybug = createEnemy("ladybug", 100, 500, 8, 8)
+    let ladybugPath = async function(){
+        ladybug.bounceRight()
+        await wait(1000)
+        ladybug.bounceDown()
+        await wait(1000)
+        ladybug.bounceLeft()
+        await wait(1000)
+        ladybug.bounceUp()
+        await wait(1000)
+        ladybugPath()
     }
 
-    slimePath()
+    ladybugPath()
+  
 // apple spawn
     const apples = []
     const STR_ASSET_ROOT = "../characterImages"
@@ -328,12 +330,81 @@ const playWasClicked = function(user) {
 }
 
 
+    ladybugPath()
+
+    let firefly = createEnemy("firefly", 800, 800, 8, 8)
+    let fireflyPath = async function(){
+        firefly.bounceDown()
+        await wait(1000)
+        firefly.bounceLeft()
+        await wait(1000)
+        firefly.bounceDown()
+        await wait(1000)
+        firefly.bounceLeft()
+        await wait(1000)
+        firefly.bounceDown()
+        await wait(1000)
+        firefly.bounceLeft()
+        await wait(1000)
+        firefly.bounceUp()
+        await wait(1000)
+        firefly.bounceRight()
+        await wait(1000)
+        firefly.bounceUp()
+        await wait(1000)
+        firefly.bounceRight()
+        await wait(1000)
+        firefly.bounceUp()
+        await wait(1000)
+        firefly.bounceRight()
+        await wait(1000)
+        fireflyPath()
+    }
+    fireflyPath()
+
+    let strider = createEnemy("strider", 700, 200, 12, 12)
+    let striderPath = async function(){
+        strider.bounceLeft()
+        await wait(2000)
+        strider.bounceDown()
+        await wait(750)
+        strider.bounceRight()
+        await wait(2000)
+        strider.bounceUp()
+        await wait(750)
+        striderPath()
+    }
+    striderPath()
+
+    let slug = createEnemy("slug", 0, 200, 6, 6)
+    let slugPath = async function(){
+        slug.bounceRight()
+        await wait(5000)
+        slug.bounceLeft()
+        await wait(5000)
+        slugPath()
+    }
+    slugPath()
+
+    setInterval(()=>{
+        const imageLeft = parseInt(image.style.left)
+        const imageBottom = parseInt(image.style.bottom)
+        const imageWidth = parseInt(image.style.width)
+        const imageHeight = parseInt(image.style.height)
+        const eImageLeft = parseInt(slime.eImage.style.left)
+        const eImageBottom = parseInt(slime.eImage.style.bottom)
+        const eImageWidth = parseInt(slime.eImage.style.width)
+        const eImageHeight = parseInt(slime.eImage.style.height)
+
+        if( imageLeft + imageWidth > eImageLeft &&
+            eImageLeft + eImageWidth > imageLeft &&
+            imageBottom + imageHeight > eImageBottom &&
+            eImageBottom + eImageHeight > imageBottom ){   
+            console.log("Collision detected")
+        }
+    },50)
 
 
 
 
-
-
-
-
-
+}
