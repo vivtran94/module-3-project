@@ -149,27 +149,27 @@ const playWasClicked = function(user) {
 
     //MAIN CHARACTER SETTINGS
     const ASSET_ROOT = "../characterImages/worm_right.gif"
-    const image = document.createElement('img')
-    image.src = ASSET_ROOT
-    document.body.append(image)
-    image.style.height = "100px"
-    image.style.width = "100px"
-    image.style.position = 'absolute';
-    image.style.bottom = '100px'
-    image.style.left = '100px'
-
+    const worm = document.createElement('img')
+    worm.src = ASSET_ROOT
+    document.body.append(worm)
+    worm.style.height = "100px"
+    worm.style.width = "100px"
+    worm.style.position = 'absolute';
+    worm.style.bottom = '100px'
+    worm.style.left = '100px'
+worm
     let direction = null;
     let left = 100;
     let bottom = 100;
-    let speed = 0.5;
+    let speed = 3;
 
     document.addEventListener('keydown',function(e){
         if(e.key == 'ArrowRight' && direction != 'right'){
-            image.src = "../characterImages/worm_right.gif"
+            worm.src = "../characterImages/worm_right.gif"
             direction = "right"
         }
         if(e.key == 'ArrowLeft' && direction != 'left') {
-            image.src = "../characterImages/worm_left.gif"
+            worm.src = "../characterImages/worm_left.gif"
             direction = "left"
         }
         if(e.key == 'ArrowUp' && direction != 'up') {
@@ -187,19 +187,19 @@ const playWasClicked = function(user) {
     const move = function(){
         if(direction == 'right'){
             left = left + speed;
-            image.style.left = `${left}px`
+            worm.style.left = `${left}px`
         }
         if(direction == 'left'){
             left = left - speed;
-            image.style.left = `${left}px`
+            worm.style.left = `${left}px`
         }
         if(direction == 'up'){
             bottom = bottom + speed;
-            image.style.bottom = `${bottom}px`
+            worm.style.bottom = `${bottom}px`
         }
         if(direction == 'down'){
             bottom = bottom - speed;
-            image.style.bottom = `${bottom}px`
+            worm.style.bottom = `${bottom}px`
         }
     }
     
@@ -343,23 +343,37 @@ const playWasClicked = function(user) {
     }
     slugPath()
 
-    setInterval(()=>{
-        const imageLeft = parseInt(image.style.left)
-        const imageBottom = parseInt(image.style.bottom)
-        const imageWidth = parseInt(image.style.width)
-        const imageHeight = parseInt(image.style.height)
-        const eImageLeft = parseInt(slime.eImage.style.left)
-        const eImageBottom = parseInt(slime.eImage.style.bottom)
-        const eImageWidth = parseInt(slime.eImage.style.width)
-        const eImageHeight = parseInt(slime.eImage.style.height)
+    let collisionInterval = setInterval(()=>{
+        if (isColliding(worm,ladybug) || isColliding(worm,firefly) || isColliding(worm,strider) || isColliding(worm,slug)){
+            console.log("Collided")
+            clearInterval(collisionInterval)
+            alert("Game Over")
+            document.body.innerText = ""
+            document.body.style.background = "#6cb7f5"
+            renderLogin()
+        }
+    },50)
+
+    const isColliding = (img1, img2) => {
+        const imageLeft = parseInt(img1.style.left)
+        const imageBottom = parseInt(img1.style.bottom)
+        const imageWidth = parseInt(img1.style.width)
+        const imageHeight = parseInt(img1.style.height)
+        const eImageLeft = parseInt(img2.eImage.style.left)
+        const eImageBottom = parseInt(img2.eImage.style.bottom)
+        const eImageWidth = parseInt(img2.eImage.style.width)
+        const eImageHeight = parseInt(img2.eImage.style.height)
+        
 
         if( imageLeft + imageWidth > eImageLeft &&
             eImageLeft + eImageWidth > imageLeft &&
             imageBottom + imageHeight > eImageBottom &&
             eImageBottom + eImageHeight > imageBottom ){   
-            console.log("Collision detected")
+            return true
+        } else {
+            return false
         }
-    },50)
+    }
 
 
 
