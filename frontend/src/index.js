@@ -206,16 +206,17 @@ const playWasClicked = function(user) {
     setInterval(move, 60/1000)
 
     //ENEMY SETTINGS
-    const ENEMY_ASSET_ROOT = "../characterImages"
-    function createEnemy(){
+    
+    function createEnemy(enemyName, x, y, h){
+        let ENEMY_ASSET_ROOT = `../characterImages/${enemyName}`
         const eImage = document.createElement('img')
         eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_up.gif`
         document.body.append(eImage)
-        eImage.style.height = "100px"
-        eImage.style.width = "100px"
+        eImage.style.height = "50px"
+        eImage.style.width = "50px"
         eImage.style.position = 'absolute'
-        eImage.style.bottom = '300px'
-        eImage.style.left = '300px'
+        eImage.style.bottom = `${y}px`
+        eImage.style.left = `${x}px`
 
         let bottom = parseInt(eImage.style.bottom)
         let left = parseInt(eImage.style.left)
@@ -244,19 +245,19 @@ const playWasClicked = function(user) {
             enemyImage: eImage,
             bounceRight: function(){
                 direction = 'right'
-                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_right.gif`
+                eImage.src = `${ENEMY_ASSET_ROOT}/walkright.gif`
             },
             bounceUp: function(){
                 direction = 'up'
-                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_up.gif`
+                eImage.src = `${ENEMY_ASSET_ROOT}/walkup.gif`
             },
             bounceDown: function(){
                 direction = 'down'
-                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_down.gif`
+                eImage.src = `${ENEMY_ASSET_ROOT}/walkdown.gif`
             },
             bounceLeft: function(){
                 direction = 'left'
-                eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_left.gif`
+                eImage.src = `${ENEMY_ASSET_ROOT}/walkleft.gif`
             },
             stop: function (){
                 direction = null
@@ -266,7 +267,7 @@ const playWasClicked = function(user) {
         return enemyObject
     }
 
-    const slime = createEnemy()
+    
 
     function wait(time){
         return new Promise(function(resolve){
@@ -274,20 +275,75 @@ const playWasClicked = function(user) {
         })
     }
 
-    let slimePath = async function(){
-        slime.bounceUp()
-        await wait(500)
-        slime.bounceLeft()
-        await wait(500)
-        slime.bounceDown()
-        await wait(500)
-        slime.bounceRight()
-        await wait(500)
-        slime.bounceUp()
-        slimePath()
+    const ladybug = createEnemy("ladybug", 100, 500)
+    let ladybugPath = async function(){
+        ladybug.bounceRight()
+        await wait(1000)
+        ladybug.bounceDown()
+        await wait(1000)
+        ladybug.bounceLeft()
+        await wait(1000)
+        ladybug.bounceUp()
+        await wait(1000)
+        ladybugPath()
     }
+    ladybugPath()
 
-    slimePath()
+    let firefly = createEnemy("firefly", 800, 800)
+    let fireflyPath = async function(){
+        firefly.bounceDown()
+        await wait(1000)
+        firefly.bounceLeft()
+        await wait(1000)
+        firefly.bounceDown()
+        await wait(1000)
+        firefly.bounceLeft()
+        await wait(1000)
+        firefly.bounceDown()
+        await wait(1000)
+        firefly.bounceLeft()
+        await wait(1000)
+        firefly.bounceUp()
+        await wait(1000)
+        firefly.bounceRight()
+        await wait(1000)
+        firefly.bounceUp()
+        await wait(1000)
+        firefly.bounceRight()
+        await wait(1000)
+        firefly.bounceUp()
+        await wait(1000)
+        firefly.bounceRight()
+        await wait(1000)
+        fireflyPath()
+    }
+    fireflyPath()
+
+    let strider = createEnemy("strider", 400, 200)
+    let striderPath = async function(){
+        strider.bounceRight()
+        await wait(1500)
+        strider.bounceDown()
+        await wait(750)
+        strider.bounceLeft()
+        await wait(1500)
+        strider.bounceUp()
+        await wait(750)
+        striderPath()
+    }
+    striderPath()
+
+    let slug = createEnemy("slug", 0, 200)
+    let slugPath = async function(){
+        slug.bounceRight()
+        await wait(5000)
+        slug.bounceLeft()
+        await wait(5000)
+        slugPath()
+    }
+    slugPath()
+
+
 }
 
 
