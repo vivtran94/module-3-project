@@ -25,7 +25,7 @@ const renderLogin = function(){
     let logMessage = document.createElement("h2")
         logMessage.innerText = "Log in to play"
     let instructionButton = document.createElement("button") 
-        instructionButton.innerText = "Intructions"
+        instructionButton.innerText = "Instructions"
     let lineBreak = document.createElement("p")
 
     document.body.append(formDiv)
@@ -157,6 +157,7 @@ const playWasClicked = function(user) {
     image.style.position = 'absolute';
     image.style.bottom = '100px'
     image.style.left = '100px'
+    image.style.margin = '0'
 
     let direction = null;
     let left = 100;
@@ -187,19 +188,40 @@ const playWasClicked = function(user) {
     const move = function(){
         if(direction == 'right'){
             left = left + speed;
-            image.style.left = `${left}px`
+            if(left + parseInt(image.style.width) < window.innerWidth){ 
+                image.style.left = `${left}px`
+            } 
+            else {
+                left = window.innerWidth - parseInt(image.style.width)
+            }
         }
         if(direction == 'left'){
+            console.log("in here")
             left = left - speed;
-            image.style.left = `${left}px`
+            if(left > 0){
+                image.style.left = `${left}px`
+            }
+            else {
+                left = 0
+            }
         }
         if(direction == 'up'){
             bottom = bottom + speed;
-            image.style.bottom = `${bottom}px`
-        }
+            if(bottom + parseInt(image.style.height) < window.innerHeight){
+                image.style.bottom = `${bottom}px`
+            }
+            else {
+                bottom = window.innerHeight - parseInt(image.style.height)
+            }
+         }
         if(direction == 'down'){
             bottom = bottom - speed;
-            image.style.bottom = `${bottom}px`
+            if(bottom > 0){
+                image.style.bottom = `${bottom}px`
+            }
+            else { 
+                bottom = 0
+            }
         }
     }
     
@@ -288,11 +310,22 @@ const playWasClicked = function(user) {
     }
 
     slimePath()
+// apple spawn
+    const apples = []
+    const STR_ASSET_ROOT = "../characterImages"
+    function createSTR(){
+    const strImage = document.createElement('img')
+    document.body.append(strImage)
+    strImage.src = `${STR_ASSET_ROOT}/apple.gif`
+    strImage.style.position = 'absolute'
+    strImage.style.height = "50px"
+    strImage.style.width = "50px"
+    strImage.style.bottom = '270px'
+    strImage.style.left = '700px'
+
+    }
+    createSTR()
 }
-
-
-
-
 
 
 
