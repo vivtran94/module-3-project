@@ -221,6 +221,7 @@ const playWasClicked = function(user) {
             }
          }
         if(direction == 'down'){
+            
             bottom = bottom - speed;
             if(bottom > 0){
                 worm.style.bottom = `${bottom}px`
@@ -378,19 +379,29 @@ const playWasClicked = function(user) {
         document.body.append(strImage)
         strImage.src = `${STR_ASSET_ROOT}/apple.gif`
         strImage.style.position = 'fixed'
-        strImage.style.height = "50px"
-        strImage.style.width = "50px"
+        strImage.style.height = "25px"
+        strImage.style.width = "25px"
+        //apple sound
+        const bite = document.createElement('audio')
+        document.body.append(bite)
+        bite.setAttribute('src','applebiteog.mp3')
         
         const x = window.innerWidth
         const y = window.innerHeight
     
         function appleMove(){
+
             strImage.style.bottom = Math.round(Math.random() * x) + 'px'
             strImage.style.left = Math.round(Math.random() * y) + 'px'
             }
-            setInterval(appleMove,1500)
+
+            setInterval(appleMove,3000)
+            
     }
     createSTR()
+
+        
+    
 
     
 
