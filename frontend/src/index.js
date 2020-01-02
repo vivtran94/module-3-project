@@ -25,7 +25,7 @@ const renderLogin = function(){
     let logMessage = document.createElement("h2")
         logMessage.innerText = "Log in to play"
     let instructionButton = document.createElement("button") 
-        instructionButton.innerText = "Intructions"
+        instructionButton.innerText = "Instructions"
     let lineBreak = document.createElement("p")
 
     document.body.append(formDiv)
@@ -152,12 +152,13 @@ const playWasClicked = function(user) {
     const worm = document.createElement('img')
     worm.src = ASSET_ROOT
     document.body.append(worm)
-    worm.style.height = "100px"
-    worm.style.width = "100px"
+    worm.style.height = "4%"
+    worm.style.width = "4%"
     worm.style.position = 'absolute';
     worm.style.bottom = '100px'
     worm.style.left = '100px'
-worm
+    worm.style.margin = '0'
+  
     let direction = null;
     let left = 100;
     let bottom = 100;
@@ -180,26 +181,47 @@ worm
         }  
     })
 
-    document.addEventListener('keyup', function(){
-        direction = null
-    })
+    // document.addEventListener('keyup', function(){
+    //     direction = null
+    // })
 
     const move = function(){
         if(direction == 'right'){
             left = left + speed;
-            worm.style.left = `${left}px`
+            if(left + parseInt(image.style.width) < window.innerWidth){ 
+                worm.style.left = `${left}px`
+            } 
+            else {
+                left = window.innerWidth - parseInt(worm.style.width)
+            }
         }
         if(direction == 'left'){
+            console.log("in here")
             left = left - speed;
-            worm.style.left = `${left}px`
+            if(left > 0){
+                worm.style.left = `${left}px`
+            }
+            else {
+                left = 0
+            }
         }
         if(direction == 'up'){
             bottom = bottom + speed;
-            worm.style.bottom = `${bottom}px`
-        }
+            if(bottom + parseInt(worm.style.height) < window.innerHeight){
+                worm.style.bottom = `${bottom}px`
+            }
+            else {
+                bottom = window.innerHeight - parseInt(worm.style.height)
+            }
+         }
         if(direction == 'down'){
             bottom = bottom - speed;
-            worm.style.bottom = `${bottom}px`
+            if(bottom > 0){
+                worm.style.bottom = `${bottom}px`
+            }
+            else { 
+                bottom = 0
+            }
         }
     }
     
@@ -207,13 +229,13 @@ worm
 
     //ENEMY SETTINGS
     
-    function createEnemy(enemyName, x, y, h){
+    function createEnemy(enemyName, x, y, height, width){
         let ENEMY_ASSET_ROOT = `../characterImages/${enemyName}`
         const eImage = document.createElement('img')
         eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_up.gif`
         document.body.append(eImage)
-        eImage.style.height = "50px"
-        eImage.style.width = "50px"
+        eImage.style.height = `${height}%`
+        eImage.style.width = `${width}%`
         eImage.style.position = 'absolute'
         eImage.style.bottom = `${y}px`
         eImage.style.left = `${x}px`
@@ -275,7 +297,7 @@ worm
         })
     }
 
-    const ladybug = createEnemy("ladybug", 100, 500)
+    const ladybug = createEnemy("ladybug", 100, 500, 8, 8)
     let ladybugPath = async function(){
         ladybug.bounceRight()
         await wait(1000)
@@ -287,9 +309,30 @@ worm
         await wait(1000)
         ladybugPath()
     }
+
+    ladybugPath()
+  
+// apple spawn
+    const apples = []
+    const STR_ASSET_ROOT = "../characterImages"
+    function createSTR(){
+    const strImage = document.createElement('img')
+    document.body.append(strImage)
+    strImage.src = `${STR_ASSET_ROOT}/apple.gif`
+    strImage.style.position = 'absolute'
+    strImage.style.height = "50px"
+    strImage.style.width = "50px"
+    strImage.style.bottom = '270px'
+    strImage.style.left = '700px'
+
+    }
+    createSTR()
+}
+
+
     ladybugPath()
 
-    let firefly = createEnemy("firefly", 800, 800)
+    let firefly = createEnemy("firefly", 800, 800, 8, 8)
     let fireflyPath = async function(){
         firefly.bounceDown()
         await wait(1000)
@@ -319,21 +362,21 @@ worm
     }
     fireflyPath()
 
-    let strider = createEnemy("strider", 400, 200)
+    let strider = createEnemy("strider", 700, 200, 12, 12)
     let striderPath = async function(){
-        strider.bounceRight()
-        await wait(1500)
+        strider.bounceLeft()
+        await wait(2000)
         strider.bounceDown()
         await wait(750)
-        strider.bounceLeft()
-        await wait(1500)
+        strider.bounceRight()
+        await wait(2000)
         strider.bounceUp()
         await wait(750)
         striderPath()
     }
     striderPath()
 
-    let slug = createEnemy("slug", 0, 200)
+    let slug = createEnemy("slug", 0, 200, 6, 6)
     let slugPath = async function(){
         slug.bounceRight()
         await wait(5000)
@@ -374,6 +417,7 @@ worm
             return false
         }
     }
+
 
 
 
