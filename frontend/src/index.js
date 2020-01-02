@@ -241,7 +241,7 @@ const playWasClicked = function(user) {
         }   
 
         const enemyObject = {
-            enemyImage: eImage,
+            eImage,
             bounceRight: function(){
                 direction = 'right'
                 eImage.src = `${ENEMY_ASSET_ROOT}/ladybug_right.gif`
@@ -288,19 +288,26 @@ const playWasClicked = function(user) {
     }
 
     slimePath()
+
+
+    setInterval(()=>{
+        const imageLeft = parseInt(image.style.left)
+        const imageBottom = parseInt(image.style.bottom)
+        const imageWidth = parseInt(image.style.width)
+        const imageHeight = parseInt(image.style.height)
+        const eImageLeft = parseInt(slime.eImage.style.left)
+        const eImageBottom = parseInt(slime.eImage.style.bottom)
+        const eImageWidth = parseInt(slime.eImage.style.width)
+        const eImageHeight = parseInt(slime.eImage.style.height)
+
+        if( imageLeft + imageWidth > eImageLeft &&
+            eImageLeft + eImageWidth > imageLeft &&
+            imageBottom + imageHeight > eImageBottom &&
+            eImageBottom + eImageHeight > imageBottom ){   
+            console.log("Collision detected")
+        }
+    },50)
+
+
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
