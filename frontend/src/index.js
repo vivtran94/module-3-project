@@ -289,7 +289,6 @@ const playWasClicked = function(user) {
         return enemyObject
     }
 
-    
 
     function wait(time){
         return new Promise(function(resolve){
@@ -309,27 +308,6 @@ const playWasClicked = function(user) {
         await wait(1000)
         ladybugPath()
     }
-
-    ladybugPath()
-  
-// apple spawn
-    const apples = []
-    const STR_ASSET_ROOT = "../characterImages"
-    function createSTR(){
-    const strImage = document.createElement('img')
-    document.body.append(strImage)
-    strImage.src = `${STR_ASSET_ROOT}/apple.gif`
-    strImage.style.position = 'absolute'
-    strImage.style.height = "50px"
-    strImage.style.width = "50px"
-    strImage.style.bottom = '270px'
-    strImage.style.left = '700px'
-
-    }
-    createSTR()
-}
-
-
     ladybugPath()
 
     let firefly = createEnemy("firefly", 800, 800, 8, 8)
@@ -386,6 +364,22 @@ const playWasClicked = function(user) {
     }
     slugPath()
 
+    //APPLE SPAWN
+    const apples = []
+    const STR_ASSET_ROOT = "../characterImages"
+    function createSTR(){
+        const strImage = document.createElement('img')
+        document.body.append(strImage)
+        strImage.src = `${STR_ASSET_ROOT}/apple.gif`
+        strImage.style.position = 'absolute'
+        strImage.style.height = "50px"
+        strImage.style.width = "50px"
+        strImage.style.bottom = '270px'
+        strImage.style.left = '700px'
+    }
+    createSTR()
+
+    //COLLISION
     let collisionInterval = setInterval(()=>{
         if (isColliding(worm,ladybug) || isColliding(worm,firefly) || isColliding(worm,strider) || isColliding(worm,slug)){
             console.log("Collided")
@@ -417,8 +411,4 @@ const playWasClicked = function(user) {
             return false
         }
     }
-
-
-
-
 }
