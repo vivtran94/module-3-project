@@ -371,13 +371,22 @@ const playWasClicked = function(user) {
         const strImage = document.createElement('img')
         document.body.append(strImage)
         strImage.src = `${STR_ASSET_ROOT}/apple.gif`
-        strImage.style.position = 'absolute'
+        strImage.style.position = 'fixed'
         strImage.style.height = "50px"
         strImage.style.width = "50px"
-        strImage.style.bottom = '270px'
-        strImage.style.left = '700px'
+        
+        const x = window.innerWidth
+        const y = window.innerHeight
+    
+        function appleMove(){
+            strImage.style.bottom = Math.round(Math.random() * x) + 'px'
+            strImage.style.left = Math.round(Math.random() * y) + 'px'
+            }
+            setInterval(appleMove,1500)
     }
     createSTR()
+
+    
 
     //COLLISION
     let collisionInterval = setInterval(()=>{
