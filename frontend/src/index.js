@@ -383,6 +383,8 @@ const playWasClicked = function(user) {
     setInterval(appleMove,3500)
 
     //ENEMY COLLISION
+
+    let isHungry = true
     let collisionInterval = setInterval(()=>{
         if (isColliding(worm,ladybug) || isColliding(worm,firefly) || isColliding(worm,strider) || isColliding(worm,slug)){
             console.log("Collided")
@@ -407,11 +409,21 @@ const playWasClicked = function(user) {
         }
         if (isColliding(worm, apple)){
             console.log("found the apple!!")
+            if (isHungry){
+                isHungry = false
+                const APPLESOUND = "../characterImages/applebiteog.mp3"
+                const bite = document.createElement('audio')
+                document.body.append(bite)
+                bite.src = APPLESOUND
+                bite.play()
+                setTimeout(()=>{isHungry = true},2000)
+            }
+
             scoreCounter = scoreCounter + 50
             strCounter = strCounter + 1
             scoreDisplay.innerText = `Score: ${scoreCounter}`    
             strDisplay.innerText = `Strength: ${strCounter}`
-            if (strCounter == 50){
+            if (strCounter == 5){
                 console.log("worm is growing")
                 incrementWormSize()
                 
