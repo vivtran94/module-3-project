@@ -436,7 +436,7 @@ const playWasClicked = function(user) {
 
     let isHungry = true
     let collisionInterval = setInterval(()=>{
-        if (isColliding(worm,ladybug) || isColliding(worm,firefly) || isColliding(worm,strider) || isColliding(worm,slug)){
+        if (isColliding(worm,ladybug) || isColliding(worm,firefly) || isColliding(worm,strider) || isColliding(worm,slug) || isColliding(worm,bee) || isColliding(worm,bird)){
             console.log("Collided")
             console.log(user)
             clearInterval(collisionInterval)
