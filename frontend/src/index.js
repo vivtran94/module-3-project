@@ -27,11 +27,12 @@ const renderLogin = function(){
     let instructionButton = document.createElement("button") 
         instructionButton.innerText = "Instructions"
     let lineBreak = document.createElement("p")
+    let errorMessage = document.createElement("p")
     document.body.style.background = "url(../characterImages/game_background.jpeg) center top no-repeat"
 
     document.body.append(formDiv)
     formDiv.append(div)
-    div.append(logMessage, loginForm, lineBreak, instructionButton, register)
+    div.append(logMessage, loginForm, lineBreak, instructionButton, register, errorMessage)
     loginForm.append(input, playButton)
     register.append(createAccount)
 
@@ -45,13 +46,22 @@ const renderLogin = function(){
             },
             body: JSON.stringify({
                 username: input.value
+                
             })
         })
         .then(function(response){
+            
             return response.json()
+            
         })
         .then(function(user){
-            playWasClicked(user)
+            if(user == null){
+                errorMessage.innerHTML = "USER NOT FOUND PLEASE CREATE ONE"
+                errorMessage.style.color = "red"
+            } else {
+                playWasClicked(user)
+            }
+
         })
     })
 
