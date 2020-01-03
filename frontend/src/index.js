@@ -245,8 +245,7 @@ const playWasClicked = function(user) {
     setInterval(move, 60/1000)
 
     //ENEMY SETTINGS
-    
-    function createEnemy(enemyName, x, y, height, width){
+    function createEnemy(enemyName, x, y, height, width) {
         let ENEMY_ASSET_ROOT = `../characterImages/${enemyName}`
         const eImage = document.createElement('img')
         eImage.src = `${ENEMY_ASSET_ROOT}/${enemyName}.gif`
@@ -327,7 +326,7 @@ const playWasClicked = function(user) {
     }
     ladybugPath()
 
-    let firefly = createEnemy("firefly", 800, 800, 8, 8)
+    let firefly = createEnemy("firefly", 800, 800, 7, 7)
     let fireflyPath = async function(){
         firefly.bounceDown()
         await wait(1000)
@@ -371,7 +370,7 @@ const playWasClicked = function(user) {
     }
     striderPath()
 
-    let slug = createEnemy("slug", 0, 200, 6, 6)
+    let slug = createEnemy("slug", 0, 200, 4, 4)
     let slugPath = async function(){
         slug.bounceRight()
         await wait(5000)
@@ -381,7 +380,7 @@ const playWasClicked = function(user) {
     }
     slugPath()
 
-    const bee = createEnemy("bee", 1100, 100, 8, 8)
+    const bee = createEnemy("bee", 1100, 100, 13, 13)
     let beePath = async function(){
         bee.bounceUp()
         await wait(1000)
@@ -412,6 +411,7 @@ const playWasClicked = function(user) {
     beePath()
 
     let bird = createEnemy("bird", 400, 500, 20, 20)
+    console.log(bird)
     let birdPath = async function(){
         bird.bounceRight()
         await wait(3000)
@@ -436,9 +436,85 @@ const playWasClicked = function(user) {
 
     let isHungry = true
     let collisionInterval = setInterval(()=>{
-        if (isColliding(worm,ladybug) || isColliding(worm,firefly) || isColliding(worm,strider) || isColliding(worm,slug)){
-            console.log("Collided")
-            console.log(user)
+        if (isColliding(worm,bird)) {
+            console.log(`Worm ${worm.style.height}`)
+            console.log(bird.eImage.style.height)
+            if (worm.style.height < bird.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                bird.eImage.remove()
+                scoreCounter = scoreCounter + 5000
+            }
+        }
+        if (isColliding(worm,bee)) {
+            if (worm.style.height < bee.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                bee.eImage.remove()
+                scoreCounter = scoreCounter + 1500
+            }
+        }
+        if (isColliding(worm,strider)) {
+            if (worm.style.height < strider.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                strider.eImage.remove()
+                scoreCounter = scoreCounter + 1200
+
+            }
+        }
+        if (isColliding(worm,ladybug)) {
+            if (worm.style.height < ladybug.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                ladybug.eImage.remove()
+                scoreCounter = scoreCounter + 1000
+            }
+        }
+        if (isColliding(worm,firefly)) {
+            if (worm.style.height < firefly.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                firefly.eImage.remove()
+                scoreCounter = scoreCounter + 750
+            }
+        }
+        if (isColliding(worm,slug)) {
+            if (worm.style.height < slug.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                slug.eImage.remove()
+                scoreCounter = scoreCounter + 500
+            }
+        }
+        if (isColliding(worm, apple)){
+            console.log("found the apple!!")
+            if (isHungry){
+                isHungry = false
+                const APPLESOUND = "../characterImages/applebiteog.mp3"
+                const bite = document.createElement('audio')
+                document.body.append(bite)
+                bite.src = APPLESOUND
+                bite.play()
+                scoreCounter = scoreCounter + 50
+                strCounter = strCounter + 1
+                scoreDisplay.innerText = `Score: ${scoreCounter}`    
+                strDisplay.innerText = `Strength: ${strCounter}`
+                incrementWormSize()
+                console.log(worm.style.height)
+                setTimeout(()=>{isHungry = true},2000)
+            }
+        }
+    },50)
+
+    function gameOver() {
+        console.log("Collided")
             clearInterval(collisionInterval)
             if (user.highscore < scoreCounter) {
                 fetch('http://localhost:3000/user', {
@@ -456,30 +532,7 @@ const playWasClicked = function(user) {
             document.body.innerText = ""
             document.body.style.background = "#6cb7f5"
             renderLogin()
-        }
-        if (isColliding(worm, apple)){
-            console.log("found the apple!!")
-            if (isHungry){
-                isHungry = false
-                const APPLESOUND = "../characterImages/applebiteog.mp3"
-                const bite = document.createElement('audio')
-                document.body.append(bite)
-                bite.src = APPLESOUND
-                bite.play()
-                scoreCounter = scoreCounter + 50
-                strCounter = strCounter + 1
-                scoreDisplay.innerText = `Score: ${scoreCounter}`    
-                strDisplay.innerText = `Strength: ${strCounter}`
-                if (strCounter == 5){
-                    console.log("worm is growing")
-                    incrementWormSize()
-                }
-                setTimeout(()=>{isHungry = true},2000)
-  
-            }
-        }
-        
-    },50)
+    }
 
     const isColliding = (img1, img2) => {
         const imageLeft = parseInt(img1.style.left)
@@ -499,5 +552,7 @@ const playWasClicked = function(user) {
         } else {
             return false
         }
+        
+
     }
 }
