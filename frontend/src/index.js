@@ -28,6 +28,7 @@ const renderLogin = function(){
         instructionButton.innerText = "Instructions"
     let lineBreak = document.createElement("p")
     let errorMessage = document.createElement("p")
+    document.body.style.background = "url(../characterImages/game_background.jpeg) center top no-repeat"
 
     document.body.append(formDiv)
     formDiv.append(div)
@@ -68,11 +69,11 @@ const renderLogin = function(){
         loginForm = document.querySelector(".form")
         loginForm.remove()
         let instructionTag = document.createElement("li")
-        instructionTag.innerText = "Collect the item in the middle to increase your strength."
+        instructionTag.innerText = "Collect the apple on the screen to increase your strength and score."
         let instructionTag1 = document.createElement("li")
-        instructionTag1.innerText = "Move with the arrow keys and avoid the enemys untill you are strong enough to kill them."
+        instructionTag1.innerText = "Move with the arrow keys and avoid the enemys, survive as long as you can to get the best score."
         let instructionTag2 = document.createElement("li")
-        instructionTag2.innerText = "You will gain size as your strength increases."
+        instructionTag2.innerText = "Run into a bug and its Game over."
         let instructionTag3 = document.createElement("li")
         instructionTag3.innerText = "Most importantly have fun :)"
         let a = document.createElement("br")
@@ -156,6 +157,15 @@ const playWasClicked = function(user) {
     strDisplay.innerText = `Strength: ${strCounter}`
     document.body.append(usernameDisplay, highscoreDisplay, scoreDisplay, strDisplay)
 
+    usernameDisplay.style.fontFamily = "Impact,Charcoal,sans-serif"
+    highscoreDisplay.style.fontFamily = "Impact,Charcoal,sans-serif"
+    strDisplay.style.fontFamily = "Impact,Charcoal,sans-serif"
+    scoreDisplay.style.fontFamily = "Impact,Charcoal,sans-serif"
+
+    usernameDisplay.style.color = "white";
+    highscoreDisplay.style.color = "white";
+    strDisplay.style.color = "white";
+    scoreDisplay.style.color = "white";
 
     //MAIN CHARACTER SETTINGS
     const ASSET_ROOT = "../characterImages/worm_right.gif"
@@ -245,8 +255,7 @@ const playWasClicked = function(user) {
     setInterval(move, 60/1000)
 
     //ENEMY SETTINGS
-    
-    function createEnemy(enemyName, x, y, height, width){
+    function createEnemy(enemyName, x, y, height, width) {
         let ENEMY_ASSET_ROOT = `../characterImages/${enemyName}`
         const eImage = document.createElement('img')
         eImage.src = `${ENEMY_ASSET_ROOT}/${enemyName}.gif`
@@ -327,7 +336,7 @@ const playWasClicked = function(user) {
     }
     ladybugPath()
 
-    let firefly = createEnemy("firefly", 800, 800, 8, 8)
+    let firefly = createEnemy("firefly", 800, 800, 7, 7)
     let fireflyPath = async function(){
         firefly.bounceDown()
         await wait(1000)
@@ -371,7 +380,7 @@ const playWasClicked = function(user) {
     }
     striderPath()
 
-    let slug = createEnemy("slug", 0, 200, 6, 6)
+    let slug = createEnemy("slug", 0, 200, 4, 4)
     let slugPath = async function(){
         slug.bounceRight()
         await wait(5000)
@@ -380,6 +389,47 @@ const playWasClicked = function(user) {
         slugPath()
     }
     slugPath()
+
+    const bee = createEnemy("bee", 1100, 100, 13, 13)
+    let beePath = async function(){
+        bee.bounceUp()
+        await wait(1000)
+        bee.bounceLeft()
+        await wait(1500)
+        bee.bounceUp()
+        await wait(1000)
+        bee.bounceLeft()
+        await wait(1500)
+        bee.bounceUp()
+        await wait(1000)
+        bee.bounceLeft()
+        await wait(1500)
+        bee.bounceDown()
+        await wait(1000)
+        bee.bounceRight()
+        await wait(1500)
+        bee.bounceDown()
+        await wait(1000)
+        bee.bounceRight()
+        await wait(1500)
+        bee.bounceDown()
+        await wait(1000)
+        bee.bounceRight()
+        await wait(1500)
+        beePath()
+    }
+    beePath()
+
+    let bird = createEnemy("bird", 400, 500, 20, 20)
+    console.log(bird)
+    let birdPath = async function(){
+        bird.bounceRight()
+        await wait(3000)
+        bird.bounceLeft()
+        await wait(3000)
+        birdPath()
+    }
+    birdPath()
 
     //APPLE SPAWN
     let apple = createEnemy("apple", 400, 400, 4, 4)
@@ -396,9 +446,85 @@ const playWasClicked = function(user) {
 
     let isHungry = true
     let collisionInterval = setInterval(()=>{
-        if (isColliding(worm,ladybug) || isColliding(worm,firefly) || isColliding(worm,strider) || isColliding(worm,slug)){
-            console.log("Collided")
-            console.log(user)
+        if (isColliding(worm,bird)) {
+            console.log(`Worm ${worm.style.height}`)
+            console.log(bird.eImage.style.height)
+            if (worm.style.height < bird.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                bird.eImage.remove()
+                scoreCounter = scoreCounter + 5000
+            }
+        }
+        if (isColliding(worm,bee)) {
+            if (worm.style.height < bee.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                bee.eImage.remove()
+                scoreCounter = scoreCounter + 1500
+            }
+        }
+        if (isColliding(worm,strider)) {
+            if (worm.style.height < strider.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                strider.eImage.remove()
+                scoreCounter = scoreCounter + 1200
+
+            }
+        }
+        if (isColliding(worm,ladybug)) {
+            if (worm.style.height < ladybug.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                ladybug.eImage.remove()
+                scoreCounter = scoreCounter + 1000
+            }
+        }
+        if (isColliding(worm,firefly)) {
+            if (worm.style.height < firefly.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                firefly.eImage.remove()
+                scoreCounter = scoreCounter + 750
+            }
+        }
+        if (isColliding(worm,slug)) {
+            if (worm.style.height < slug.eImage.style.height) {
+                gameOver()
+            }
+            else {
+                slug.eImage.remove()
+                scoreCounter = scoreCounter + 500
+            }
+        }
+        if (isColliding(worm, apple)){
+            console.log("found the apple!!")
+            if (isHungry){
+                isHungry = false
+                const APPLESOUND = "../characterImages/applebiteog.mp3"
+                const bite = document.createElement('audio')
+                document.body.append(bite)
+                bite.src = APPLESOUND
+                bite.play()
+                scoreCounter = scoreCounter + 50
+                strCounter = strCounter + 1
+                scoreDisplay.innerText = `Score: ${scoreCounter}`    
+                strDisplay.innerText = `Strength: ${strCounter}`
+                incrementWormSize()
+                console.log(worm.style.height)
+                setTimeout(()=>{isHungry = true},2000)
+            }
+        }
+    },50)
+
+    function gameOver() {
+        console.log("Collided")
             clearInterval(collisionInterval)
             if (user.highscore < scoreCounter) {
                 fetch('http://localhost:3000/user', {
@@ -416,30 +542,7 @@ const playWasClicked = function(user) {
             document.body.innerText = ""
             document.body.style.background = "#6cb7f5"
             renderLogin()
-        }
-        if (isColliding(worm, apple)){
-            console.log("found the apple!!")
-            if (isHungry){
-                isHungry = false
-                const APPLESOUND = "../characterImages/applebiteog.mp3"
-                const bite = document.createElement('audio')
-                document.body.append(bite)
-                bite.src = APPLESOUND
-                bite.play()
-                scoreCounter = scoreCounter + 50
-                strCounter = strCounter + 1
-                scoreDisplay.innerText = `Score: ${scoreCounter}`    
-                strDisplay.innerText = `Strength: ${strCounter}`
-                if (strCounter == 5){
-                    console.log("worm is growing")
-                    incrementWormSize()
-                }
-                setTimeout(()=>{isHungry = true},2000)
-  
-            }
-        }
-        
-    },50)
+    }
 
     const isColliding = (img1, img2) => {
         const imageLeft = parseInt(img1.style.left)
@@ -451,7 +554,6 @@ const playWasClicked = function(user) {
         const eImageWidth = parseInt(img2.eImage.style.width)
         const eImageHeight = parseInt(img2.eImage.style.height)
         
-
         if( imageLeft + imageWidth > eImageLeft &&
             eImageLeft + eImageWidth > imageLeft &&
             imageBottom + imageHeight > eImageBottom &&
@@ -460,5 +562,7 @@ const playWasClicked = function(user) {
         } else {
             return false
         }
+        
+
     }
 }
