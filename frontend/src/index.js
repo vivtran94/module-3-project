@@ -27,6 +27,7 @@ const renderLogin = function(){
     let instructionButton = document.createElement("button") 
         instructionButton.innerText = "Instructions"
     let lineBreak = document.createElement("p")
+    document.body.style.background = "url(../characterImages/game_background.jpeg) center top no-repeat"
 
     document.body.append(formDiv)
     formDiv.append(div)
@@ -58,11 +59,11 @@ const renderLogin = function(){
         loginForm = document.querySelector(".form")
         loginForm.remove()
         let instructionTag = document.createElement("li")
-        instructionTag.innerText = "Collect the item in the middle to increase your strength."
+        instructionTag.innerText = "Collect the apple on the screen to increase your strength and score."
         let instructionTag1 = document.createElement("li")
-        instructionTag1.innerText = "Move with the arrow keys and avoid the enemys untill you are strong enough to kill them."
+        instructionTag1.innerText = "Move with the arrow keys and avoid the enemys, survive as long as you can to get the best score."
         let instructionTag2 = document.createElement("li")
-        instructionTag2.innerText = "You will gain size as your strength increases."
+        instructionTag2.innerText = "Run into a bug and its Game over."
         let instructionTag3 = document.createElement("li")
         instructionTag3.innerText = "Most importantly have fun :)"
         let a = document.createElement("br")
@@ -146,6 +147,15 @@ const playWasClicked = function(user) {
     strDisplay.innerText = `Strength: ${strCounter}`
     document.body.append(usernameDisplay, highscoreDisplay, scoreDisplay, strDisplay)
 
+    usernameDisplay.style.fontFamily = "Impact,Charcoal,sans-serif"
+    highscoreDisplay.style.fontFamily = "Impact,Charcoal,sans-serif"
+    strDisplay.style.fontFamily = "Impact,Charcoal,sans-serif"
+    scoreDisplay.style.fontFamily = "Impact,Charcoal,sans-serif"
+
+    usernameDisplay.style.color = "white";
+    highscoreDisplay.style.color = "white";
+    strDisplay.style.color = "white";
+    scoreDisplay.style.color = "white";
 
     //MAIN CHARACTER SETTINGS
     const ASSET_ROOT = "../characterImages/worm_right.gif"
@@ -480,7 +490,7 @@ const playWasClicked = function(user) {
         const eImageBottom = parseInt(img2.eImage.style.bottom)
         const eImageWidth = parseInt(img2.eImage.style.width)
         const eImageHeight = parseInt(img2.eImage.style.height)
-    
+        
         if( imageLeft + imageWidth > eImageLeft &&
             eImageLeft + eImageWidth > imageLeft &&
             imageBottom + imageHeight > eImageBottom &&
