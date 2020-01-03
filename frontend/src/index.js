@@ -371,6 +371,46 @@ const playWasClicked = function(user) {
     }
     slugPath()
 
+    const bee = createEnemy("bee", 1100, 100, 8, 8)
+    let beePath = async function(){
+        bee.bounceUp()
+        await wait(1000)
+        bee.bounceLeft()
+        await wait(1500)
+        bee.bounceUp()
+        await wait(1000)
+        bee.bounceLeft()
+        await wait(1500)
+        bee.bounceUp()
+        await wait(1000)
+        bee.bounceLeft()
+        await wait(1500)
+        bee.bounceDown()
+        await wait(1000)
+        bee.bounceRight()
+        await wait(1500)
+        bee.bounceDown()
+        await wait(1000)
+        bee.bounceRight()
+        await wait(1500)
+        bee.bounceDown()
+        await wait(1000)
+        bee.bounceRight()
+        await wait(1500)
+        beePath()
+    }
+    beePath()
+
+    let bird = createEnemy("bird", 400, 500, 20, 20)
+    let birdPath = async function(){
+        bird.bounceRight()
+        await wait(3000)
+        bird.bounceLeft()
+        await wait(3000)
+        birdPath()
+    }
+    birdPath()
+
     //APPLE SPAWN
     let apple = createEnemy("apple", 400, 400, 4, 4)
     const appleX = window.innerWidth
@@ -440,8 +480,7 @@ const playWasClicked = function(user) {
         const eImageBottom = parseInt(img2.eImage.style.bottom)
         const eImageWidth = parseInt(img2.eImage.style.width)
         const eImageHeight = parseInt(img2.eImage.style.height)
-        
-
+    
         if( imageLeft + imageWidth > eImageLeft &&
             eImageLeft + eImageWidth > imageLeft &&
             imageBottom + imageHeight > eImageBottom &&
