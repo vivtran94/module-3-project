@@ -322,7 +322,7 @@ const playWasClicked = function(user) {
         })
     }
 
-    const ladybug = createEnemy("ladybug", 100, 500, 8, 8)
+    const ladybug = createEnemy("ladybug", 100, 500, 9, 9)
     let ladybugPath = async function(){
         ladybug.bounceRight()
         await wait(1000)
@@ -366,7 +366,7 @@ const playWasClicked = function(user) {
     }
     fireflyPath()
 
-    let strider = createEnemy("strider", 700, 200, 12, 12)
+    let strider = createEnemy("strider", 700, 200, 11, 11)
     let striderPath = async function(){
         strider.bounceLeft()
         await wait(2000)
@@ -421,7 +421,6 @@ const playWasClicked = function(user) {
     beePath()
 
     let bird = createEnemy("bird", 400, 500, 20, 20)
-    console.log(bird)
     let birdPath = async function(){
         bird.bounceRight()
         await wait(3000)
@@ -449,7 +448,8 @@ const playWasClicked = function(user) {
         if (isColliding(worm,bird)) {
             console.log(`Worm ${worm.style.height}`)
             console.log(bird.eImage.style.height)
-            if (worm.style.height < bird.eImage.style.height) {
+            console.log(worm.style.height > bird.eImage.style.height)
+            if (worm.style.height > bird.eImage.style.height) {
                 gameOver()
             }
             else {
@@ -458,7 +458,7 @@ const playWasClicked = function(user) {
             }
         }
         if (isColliding(worm,bee)) {
-            if (worm.style.height < bee.eImage.style.height) {
+            if (worm.style.height > bee.eImage.style.height) {
                 gameOver()
             }
             else {
